@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "io.github.bric3.gradle.cgroup2.patcher"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 description = "Java agent to patch Gradle 8.x with cgroup v2 support for better memory detection in containers"
 
 repositories {
