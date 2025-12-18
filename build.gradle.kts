@@ -24,9 +24,11 @@ dependencies {
 
 tasks {
     test {
-        useJUnitPlatform()
-        // Ensure shadowJar is built before tests run
         dependsOn(shadowJar)
+        useJUnitPlatform()
+        doFirst {
+            systemProperty("agentJar", shadowJar.flatMap { it.archiveFile }.get().asFile.absolutePath)
+        }
     }
 
     jar {
@@ -34,16 +36,12 @@ tasks {
     }
 
     shadowJar {
-        // Relocate ASM to avoid conflicts with Gradle's own ASM
-        relocate("org.objectweb.asm", "io.github.bric3.gradle.cgroup2.patcher.shadow.asm")
-
-        // JVM Agent manifest
         manifest {
             attributes["Premain-Class"] = "io.github.bric3.gradle.cgroup2.patcher.AddCgroupV2SupportToGradle"
             attributes["Can-Redefine-Classes"] = "true"
             attributes["Can-Retransform-Classes"] = "true"
         }
-
+        relocate("org.objectweb.asm", "io.github.bric3.gradle.cgroup2.patcher.asm")
         archiveClassifier.set("")
     }
 

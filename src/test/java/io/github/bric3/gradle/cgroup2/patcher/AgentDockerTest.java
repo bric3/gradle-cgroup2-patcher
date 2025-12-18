@@ -17,9 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AgentDockerTest {
     @Test
     void agentTransformsCGroupMemoryInfoInGradle814(@TempDir Path tempDir) throws IOException {
-        Path agentJar = Path.of("build/libs/gradle-cgroup2-patcher-1.0-SNAPSHOT.jar");
+        Path agentJar = Path.of(System.getProperty("agentJar"));
         assertThat(agentJar).exists()
-                .withFailMessage("Agent JAR not found. Run './gradlew shadowJar' first.");
+                .withFailMessage("Agent JAR not found at: " + agentJar);
 
         Path testProjectDir = tempDir.resolve("test-project");
         Files.createDirectories(testProjectDir);
