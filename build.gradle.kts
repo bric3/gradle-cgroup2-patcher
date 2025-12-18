@@ -103,8 +103,36 @@ mavenPublishing {
         sourcesJar = true
     ))
 
-    publishToMavenCentral()
-//    signAllPublications()
+    publishToMavenCentral(automaticRelease = true)
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html
+    // and https://github.com/gradle-nexus/publish-plugin
+    /*
+     * Identify the key
+     * ```
+     * gpg --list-secret-keys --keyid-format=short
+     * ```
+     *
+     * NOTE: I wasn't able to sign the artefacts using only
+     * `-Psigning.password="$(gpg --export-secret-keys --armor <key id>)` and `-Psigning.key="$(gpg --export --armor <key id>)"`
+     * Got this error: `Cannot perform signing task ':signMavenPublication' because it has no configured signatory`
+     *
+     * First export the secring.gpg file:
+     * ```
+     * gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+     * ```
+     *
+     * Then check sign works:
+     * ```
+     * ./gradlew sign \
+     *      -PmavenCentralUsername=$(op item get "central" --fields publication.username) \
+     *      -PmavenCentralPassword=$(op item get "central" --fields publication.password --reveal)
+     *      -Psigning.secretKeyRingFile=$HOME/.gnupg/secring.gpg \
+     *      -Psigning.password="$(op item get "gpg" --field passphrase --reveal)"
+     *      -Psigning.keyId=<short key id>
+     * ```
+    */
+    signAllPublications()
 
     coordinates("${project.group}", "${project.name}", "${project.version}")
 
