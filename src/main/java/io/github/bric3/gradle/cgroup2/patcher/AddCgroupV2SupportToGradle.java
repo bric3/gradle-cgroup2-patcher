@@ -36,7 +36,7 @@ public class AddCgroupV2SupportToGradle {
         ) {
             if ("org/gradle/process/internal/health/memory/CGroupMemoryInfo".equals(className)) {
                 System.err.println("Transforming class to support cgroup v2: " + className);
-                System.out.println("  commit https://github.com/Megmeehey/gradle/commit/1d26bf4522a37e559d911a0f9e14d153d0525ead");
+                System.out.println("  PR https://github.com/gradle/gradle/pull/34883/changes");
                 return CGroupMemoryInfoDump.dump();
             }
             return null;
