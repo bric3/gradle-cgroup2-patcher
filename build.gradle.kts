@@ -82,15 +82,18 @@ tasks {
 }
 
 // Rustine to allow publishing the shadow jar as the only jar to be published
-with(components["java"] as AdhocComponentWithVariants) {
-    withVariantsFromConfiguration(configurations["runtimeElements"]) {
-        skip()
+configurations {
+    named("runtimeElements") {
+        outgoing {
+            artifacts.clear()
+            artifact(tasks.shadowJar)
+        }
     }
-    withVariantsFromConfiguration(configurations["apiElements"]) {
-        skip()
-    }
-    addVariantsFromConfiguration(configurations["shadowRuntimeElements"]!!) {
-        mapToMavenScope("runtime")
+    named("apiElements") {
+        outgoing {
+            artifacts.clear()
+            artifact(tasks.shadowJar)
+        }
     }
 }
 
