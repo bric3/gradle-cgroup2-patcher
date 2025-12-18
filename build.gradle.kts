@@ -1,6 +1,6 @@
 plugins {
-    id("java")
-    id("com.gradleup.shadow") version "9.3.0"
+    java
+    alias(libs.plugins.shadow)
 }
 
 group = "io.github.bric3.gradle.cgroup2.patcher"
