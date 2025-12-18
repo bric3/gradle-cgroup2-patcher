@@ -1,0 +1,19 @@
+= Enable `cgroup` v2 for Gradle `[8.1;9.3[`
+
+Enable `cgroup` v2 support for Gradle versions from `8.1` (inclusive) to `9.3` (exclusive).
+
+CAUTION: This patch modifies Gradle's internal files. This agent has presently no fail guard. Use it at your own risk and always back up your files before applying any changes.
+
+== Background
+
+When running Gradle builds inside containers (e.g., Docker), Gradle relies on `cgroup` to determine the available system resources (CPU, memory, etc.) to optimize its performance.
+
+Gradle introduced support for `cgroup` *v1* starting from version `8.1` (actually 8.1 RC1), see
+https://github.com/gradle/gradle/pull/23944[Gradle PR #23944].
+
+And a new PR was added to support `cgroup` *v2* in Gradle 9.3, see
+https://github.com/Megmeehey/gradle/compare/26065[Gradle PR #26065].
+
+At this time, only Gradle 9.3 RC1 is released, and it's unlikely we'll see a backport for 8.x series.
+
+
