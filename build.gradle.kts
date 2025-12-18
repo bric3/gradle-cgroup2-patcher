@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
-import org.gradle.api.publish.tasks.GenerateModuleMetadata
 
 /*
  * Copyright 2025 Brice Dutheil
@@ -82,6 +81,19 @@ tasks {
     }
 }
 
+// Rustine to allow publishing the shadow jar as the only jar to be published
+with(components["java"] as AdhocComponentWithVariants) {
+    withVariantsFromConfiguration(configurations["runtimeElements"]) {
+        skip()
+    }
+    withVariantsFromConfiguration(configurations["apiElements"]) {
+        skip()
+    }
+    addVariantsFromConfiguration(configurations["shadowRuntimeElements"]!!) {
+        mapToMavenScope("runtime")
+    }
+}
+
 mavenPublishing {
     configure(JavaLibrary(
         javadocJar = JavadocJar.Empty(),
@@ -122,31 +134,3 @@ mavenPublishing {
         }
     }
 }
-
-// Rustine to make `com.vanniktech.maven.publish` able to publish the shadow jar
-// Unfortunately, `com.vanniktech.maven.publish` creates the "maven" publication, in an afterEvaluate block
-// and doesn't allow to customize which artifacts / components are published.
-// TODO, since `com.vanniktech.maven.publish` uses the java components, maybe it's possible to modify the java
-//  component to use the shadow jar before the afterEvaluate block?
-afterEvaluate {
-    publishing {
-        publications {
-            named<MavenPublication>("maven") {
-                // Clear artifacts from java component and add shadow jar artifacts
-                artifacts.clear()
-                artifact(tasks.shadowJar) {
-                    classifier = ""
-                }
-                artifact(tasks.named("sourcesJar")) {
-                    classifier = "sources"
-                }
-            }
-        }
-    }
-    
-    // Suppress Gradle module metadata generation as we're customizing artifacts
-    tasks.withType<GenerateModuleMetadata> {
-        enabled = false
-    }
-}
-
