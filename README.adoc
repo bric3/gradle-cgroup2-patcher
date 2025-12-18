@@ -16,4 +16,7 @@ https://github.com/Megmeehey/gradle/compare/26065[Gradle PR #26065].
 
 At this time, only Gradle 9.3 RC1 is released, and it's unlikely we'll see a backport for 8.x series.
 
+== License
 
+Since this patch modifies Gradle's internal files, it is licensed under the same license as Gradle itself,
+which is the Apache License, Version 2.0.

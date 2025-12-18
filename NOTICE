@@ -1,0 +1,10 @@
+Gradle CGroup v2 Patcher
+Copyright 2025 Brice Dutheil
+
+This product includes software developed at
+The Gradle Project (https://gradle.org/)
+
+This product includes code derived from Gradle 9.3.0-rc-1:
+  - org.gradle.process.internal.health.memory.CGroupMemoryInfo
+  Copyright 2007-2025 the original Gradle authors
+  Licensed under the Apache License, Version 2.0

@@ -1,3 +1,21 @@
+/*
+ * Copyright 2025 Brice Dutheil
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * However this file is an ASM dump of the original class https://github.com/gradle/gradle/blob/c43142f2b72aa41d60cb8c10cf839f4f9082e643/platforms/core-runtime/process-memory-services/src/main/java/org/gradle/process/internal/health/memory/CGroupMemoryInfo.javas.
+ * And the instructions to get this compiled code are a derived from the compiled class, and I believe - I'm not a lawyer - they are covered by the original license of the file.
+ */
 package io.github.bric3.gradle.cgroup2.patcher;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -17,6 +35,8 @@ import org.objectweb.asm.TypePath;
 /**
  * Dump of <code>org.gradle.process.internal.health.memory.CGroupMemoryInfo</code>
  * with cgroup v2 support that is shipped in Gradle 9.3.0-rc1.
+ *
+ * <a href="https://github.com/gradle/gradle/blob/c43142f2b72aa41d60cb8c10cf839f4f9082e643/platforms/core-runtime/process-memory-services/src/main/java/org/gradle/process/internal/health/memory/CGroupMemoryInfo.java">Source file</a>
  */
 public class CGroupMemoryInfoDump implements Opcodes {
 
