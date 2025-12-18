@@ -28,7 +28,6 @@ public class AddCgroupV2SupportToGradle {
     private static class CGroupV2MemoryInfoTransformer implements ClassFileTransformer {
         @Override
         public byte[] transform(
-                Module module,
                 ClassLoader loader,
                 String className,
                 Class<?> classBeingRedefined,

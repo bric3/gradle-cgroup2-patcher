@@ -39,6 +39,10 @@ dependencies {
 }
 
 tasks {
+    compileJava {
+        options.release.set(8)
+    }
+
     test {
         dependsOn(shadowJar)
         useJUnitPlatform()
