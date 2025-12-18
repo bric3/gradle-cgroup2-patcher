@@ -19,6 +19,7 @@ testcontainers = "2.0.3"
 assertj = "3.27.3"
 shadow = "9.3.0"
 slf4j = "2.0.17"
+maven-publish = "0.35.0"
 
 [libraries]
 asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
@@ -34,3 +35,4 @@ slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }

@@ -1,3 +1,7 @@
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import org.gradle.api.publish.tasks.GenerateModuleMetadata
+
 /*
  * Copyright 2025 Brice Dutheil
  *
@@ -14,12 +18,14 @@
  * limitations under the License.
  */
 plugins {
-    java
+    `java-library`
     alias(libs.plugins.shadow)
+    alias(libs.plugins.maven.publish)
 }
 
 group = "io.github.bric3.gradle.cgroup2.patcher"
-version = "1.0-SNAPSHOT"
+version = "0.0.1-SNAPSHOT"
+description = "Java agent to patch Gradle 8.x with cgroup v2 support for better memory detection in containers"
 
 repositories {
     mavenCentral()
@@ -62,7 +68,7 @@ tasks {
             attributes["Can-Retransform-Classes"] = "true"
         }
         relocate("org.objectweb.asm", "io.github.bric3.gradle.cgroup2.patcher.asm")
-        archiveClassifier.set("")
+        archiveClassifier = ""
 
         // Include license files in the JAR
         from(rootProject.projectDir) {
@@ -73,6 +79,74 @@ tasks {
 
     build {
         dependsOn(shadowJar)
+    }
+}
+
+mavenPublishing {
+    configure(JavaLibrary(
+        javadocJar = JavadocJar.Empty(),
+        sourcesJar = true
+    ))
+
+    publishToMavenCentral()
+//    signAllPublications()
+
+    coordinates("${project.group}", "${project.name}", "${project.version}")
+
+    pom {
+        name = "Gradle CGroup v2 Patcher"
+        description = "Java agent to patch Gradle 8.x with cgroup v2 support for better memory detection in containers"
+        inceptionYear = "2025"
+        url = "https://github.com/bric3/gradle-cgroup2-patcher"
+
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "repo"
+            }
+        }
+
+        developers {
+            developer {
+                id = "bric3"
+                name = "Brice Dutheil"
+                url = "https://github.com/bric3"
+            }
+        }
+
+        scm {
+            url = "https://github.com/bric3/gradle-cgroup2-patcher"
+            connection = "scm:git:git://github.com/bric3/gradle-cgroup2-patcher.git"
+            developerConnection = "scm:git:ssh://git@github.com/bric3/gradle-cgroup2-patcher.git"
+        }
+    }
+}
+
+// Rustine to make `com.vanniktech.maven.publish` able to publish the shadow jar
+// Unfortunately, `com.vanniktech.maven.publish` creates the "maven" publication, in an afterEvaluate block
+// and doesn't allow to customize which artifacts / components are published.
+// TODO, since `com.vanniktech.maven.publish` uses the java components, maybe it's possible to modify the java
+//  component to use the shadow jar before the afterEvaluate block?
+afterEvaluate {
+    publishing {
+        publications {
+            named<MavenPublication>("maven") {
+                // Clear artifacts from java component and add shadow jar artifacts
+                artifacts.clear()
+                artifact(tasks.shadowJar) {
+                    classifier = ""
+                }
+                artifact(tasks.named("sourcesJar")) {
+                    classifier = "sources"
+                }
+            }
+        }
+    }
+    
+    // Suppress Gradle module metadata generation as we're customizing artifacts
+    tasks.withType<GenerateModuleMetadata> {
+        enabled = false
     }
 }
 
