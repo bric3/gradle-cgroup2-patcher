@@ -20,6 +20,7 @@ dependencies {
     testImplementation(libs.testcontainers.junit.jupiter)
     testImplementation(libs.assertj.core)
     testRuntimeOnly(libs.junit.platform.launcher)
+    testRuntimeOnly(libs.slf4j.simple)
 }
 
 tasks {

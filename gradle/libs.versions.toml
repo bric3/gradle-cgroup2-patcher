@@ -4,6 +4,7 @@ junit = "6.0.1"
 testcontainers = "2.0.3"
 assertj = "3.27.3"
 shadow = "9.3.0"
+slf4j = "2.0.17"
 
 [libraries]
 asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
@@ -15,6 +16,7 @@ testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version
 testcontainers = { module = "org.testcontainers:testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
